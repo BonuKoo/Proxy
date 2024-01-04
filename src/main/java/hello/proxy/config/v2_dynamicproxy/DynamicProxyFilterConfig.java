@@ -1,7 +1,6 @@
 package hello.proxy.config.v2_dynamicproxy;
 
 import hello.proxy.app.v1.*;
-import hello.proxy.config.v2_dynamicproxy.handler.LogTraceBasicHandler;
 import hello.proxy.config.v2_dynamicproxy.handler.LogTraceFilterHandler;
 import hello.proxy.trace.logtrace.LogTrace;
 import org.springframework.context.annotation.Bean;
@@ -15,33 +14,33 @@ public class DynamicProxyFilterConfig {
     private static final String [] PATTERNS = {"request*","order*,*save*"};
 
     @Bean
-    public OrderControllerV1 orderControllerV1(LogTrace logTrace){
+    public OrderControllerV2 orderControllerV1(LogTrace logTrace){
 
-        OrderControllerV1 orderController
-                = new OrderControllerV1Impl(orderServiceV1(logTrace));
+        OrderControllerV2 orderController
+                = new OrderControllerV2Impl(orderServiceV1(logTrace));
 
-        OrderControllerV1 proxy = (OrderControllerV1) Proxy.newProxyInstance(OrderControllerV1.class.getClassLoader(),
-                new Class[]{OrderControllerV1.class},
+        OrderControllerV2 proxy = (OrderControllerV2) Proxy.newProxyInstance(OrderControllerV2.class.getClassLoader(),
+                new Class[]{OrderControllerV2.class},
                 new LogTraceFilterHandler(orderController, logTrace,PATTERNS)
         );
         return proxy;
     }
 
     @Bean
-    public OrderServiceV1 orderServiceV1(LogTrace logTrace){
-        OrderServiceV1 orderService = new OrderServiceV1Impl(orderRepositoryV1(logTrace));
-        OrderServiceV1 proxy = (OrderServiceV1) Proxy.newProxyInstance(OrderServiceV1.class.getClassLoader(),
-                new Class[]{OrderServiceV1.class},
+    public OrderServiceV2 orderServiceV1(LogTrace logTrace){
+        OrderServiceV2 orderService = new OrderServiceV2Impl(orderRepositoryV1(logTrace));
+        OrderServiceV2 proxy = (OrderServiceV2) Proxy.newProxyInstance(OrderServiceV2.class.getClassLoader(),
+                new Class[]{OrderServiceV2.class},
                 new LogTraceFilterHandler(orderService, logTrace,PATTERNS)
         );
         return proxy;
     }
 
     @Bean
-    public OrderRepositoryV1 orderRepositoryV1(LogTrace logTrace){
-        OrderRepositoryV1 orderRepository = new OrderRepositoryV1Impl();
-        OrderRepositoryV1 proxy = (OrderRepositoryV1) Proxy.newProxyInstance(OrderRepositoryV1.class.getClassLoader(),
-                new Class[]{OrderRepositoryV1.class},
+    public OrderRepositoryV orderRepositoryV1(LogTrace logTrace){
+        OrderRepositoryV orderRepository = new OrderRepositoryV2Impl();
+        OrderRepositoryV proxy = (OrderRepositoryV) Proxy.newProxyInstance(OrderRepositoryV.class.getClassLoader(),
+                new Class[]{OrderRepositoryV.class},
                 new LogTraceFilterHandler(orderRepository,logTrace,PATTERNS)
         );
 

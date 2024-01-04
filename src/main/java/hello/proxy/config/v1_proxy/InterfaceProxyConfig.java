@@ -17,22 +17,22 @@ public class InterfaceProxyConfig {
     //그럼 스프링 빈에 프록시가 등록된다.
     //구현체는 orderService를 참조하게 된다.
     @Bean
-    public OrderControllerV1 orderController(LogTrace logTrace){
-        OrderControllerV1Impl controllerImpl = new OrderControllerV1Impl(orderService(logTrace));
+    public OrderControllerV2 orderController(LogTrace logTrace){
+        OrderControllerV2Impl controllerImpl = new OrderControllerV2Impl(orderService(logTrace));
         return new OrderControllerInterfaceProxy(controllerImpl, logTrace);
     }
 
     //orderService는 프록시를 반환한다.
     @Bean
-    public OrderServiceV1 orderService(LogTrace logTrace){
-        OrderServiceV1Impl serviceImpl = new OrderServiceV1Impl(orderRepository(logTrace));
+    public OrderServiceV2 orderService(LogTrace logTrace){
+        OrderServiceV2Impl serviceImpl = new OrderServiceV2Impl(orderRepository(logTrace));
         return new OrderServiceInterfaceProxy(serviceImpl,logTrace);
     }
 
     //리포지토리도 프록시를 반환
     @Bean
-    public OrderRepositoryV1 orderRepository(LogTrace logTrace) {
-        OrderRepositoryV1Impl repositoryImpl = new OrderRepositoryV1Impl();
+    public OrderRepositoryV orderRepository(LogTrace logTrace) {
+        OrderRepositoryV2Impl repositoryImpl = new OrderRepositoryV2Impl();
         return new OrderRepositoryInterfaceProxy(repositoryImpl,logTrace);
     }
 

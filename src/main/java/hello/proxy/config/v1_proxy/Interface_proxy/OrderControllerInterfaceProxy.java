@@ -1,16 +1,15 @@
 package hello.proxy.config.v1_proxy.Interface_proxy;
 
-import hello.proxy.app.v1.OrderControllerV1;
-import hello.proxy.app.v1.OrderServiceV1;
+import hello.proxy.app.v1.OrderControllerV2;
 import hello.proxy.trace.TraceStatus;
 import hello.proxy.trace.logtrace.LogTrace;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OrderControllerInterfaceProxy implements OrderControllerV1 {
+public class OrderControllerInterfaceProxy implements OrderControllerV2 {
 
 
-    private final OrderControllerV1 target;
+    private final OrderControllerV2 target;
     private final LogTrace logTrace;
 
 
